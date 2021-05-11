@@ -8,8 +8,7 @@
 Requires: R programming language needs to be installed. With the following packages: "igraph", "plyr" and "tidyr". 
 The scripts automate the installation of these required packages, so you do not need to install them before hand. 
 
-This readme file describes how to use the scripts for creating, ploting and computing metrics for
-STN models of single algorithms.
+This readme file describes how to use the scripts for creating, ploting and computing metrics for STN models of single algorithms.
 
 Three scripts are described: 
     1) create.R      - Creates an STN model of the algorithm and saves it in an Rdata file  
@@ -22,9 +21,9 @@ The input raw data is given in a folder, and the script will process all the fil
 #-------------------------------------------------------------------------------------------------------
 1) create.R: Creates the STN models of single algorithms from raw data and saves them in an output folder.
       - Requires 3 arguments (and a 4th optional argument): 
-        1) The name of the folder containint the raw data files. 
+        1) The name of the folder containing the raw data files. 
         2) The number of runs from the input files to be used. This should be a number between 1 up to total number of runs within in the raw data files.
-        3) The objectve value of global optimum (or best-known solution) with the desired precision) of the instance considered.
+        3) The objective value of global optimum (or best-known solution) with the desired precision of the instance considered.
         4) Optional argument  0: Maximisation, 1 : Minimisation (default).
       
       - We give two folders as examples of input files "rana" and "pmed7", for continous and discrete optimisation respectively. 
@@ -33,7 +32,7 @@ The input raw data is given in a folder, and the script will process all the fil
       - To run this script, with the given example folders with raw data you should write in the command line:
       Rscript create.R <folder_name> <num_runs> <best_kwnon>
 
-      Here some example command lines: 
+      Here are some example command lines: 
 
       Rscript create.R rana 10 0.0
       Rscript create.R rana  6 0.0
@@ -47,7 +46,7 @@ The input raw data is given in a folder, and the script will process all the fil
 
 #-------------------------------------------------------------------------------------------------
 2) plot-alg.R:  Plots the STN of a single algorithm.
-    - Requires one argument and a 2nd optional argumant:
+    - Requires one argument and a 2nd optional argument:
       1) The name of the folder containing the input STN RData files created with the create.R script. 
       2) A numeric value/real number (size factor) that multiplies the base size of nodes and edges, so you can make them larger or smaller.  
 
@@ -63,7 +62,7 @@ The input raw data is given in a folder, and the script will process all the fil
     - This will create a folder: "rana-stn-plot" or "pmed7-stn-plot" containing the pdf files plotting the STN graphs. 
     As the naming convention for the output folder, we add the suffix "-plot" to the input folder name. 
     Each file contains 2 plots (2 pages), each showing a different layout visualisation of the network.  
-    The first plot uses the Fruchterman–Reingold (FR) layout and the second the Kamada–Kawai (KK) layout as immplemented in igraph.
+    The first plot uses the Fruchterman-Reingold (FR) layout and the second the Kamada-Kawai (KK) layout as implemented in igraph.
 
 #-------------------------------------------------------------------------------------------------
 3) metrics-alg.R - Computes a set of metrics associated to the STN models producing a .csv file 
