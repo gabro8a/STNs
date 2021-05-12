@@ -1,25 +1,27 @@
-Network Analysis of Search Trajectory Networks (STNs)
+# Search Trajectory Networks (STNs)
 
-Construction and visualisation of STNs for given (single) algorithms
-Authors: Gabriela Ochoa, Katherine Malan, Christian Blum
-Date: May 2021
+Construction, visualisationa and metrics of STNs for single algorithms and for agregating two or three algorithms.
 
+#### Authors: Gabriela Ochoa, Katherine Malan, Christian Blum
 
-Requires: R programming language needs to be installed. With the following packages: "igraph", "plyr" and "tidyr". 
-The scripts automate the installation of these required packages, so you do not need to install them before hand. 
+This repository contains a set [R](https://cran.r-project.org/) scripts for constructing, visualising and computing metrics of search trajectory networks (STN) models extracted from running metaheuristics on optimisation problems.  The scripts use the following R packages: [igraph](https://igraph.org/r/), [plyr](https://cran.r-project.org/web/packages/plyr/index.html) and [tidyr](https://tidyr.tidyverse.org/), whose installation is automated within the provided scripts.
 
-This readme file describes how to use the scripts for creating, ploting and computing metrics for STN models of single algorithms.
-
-Three scripts are described: 
-    1) create.R      - Creates an STN model of the algorithm and saves it in an Rdata file  
-    2) plot-alg.R    - Plots the STN model in the given Rdata file producing a PDF file with the plot
-    3) metrics-alg.R - Computes a set of metrics associated to the STN model producing a .csv file  (to be prepared)
-
-These are to be run from the command line, in sequence as described below. 
-The input raw data is given in a folder, and the script will process all the files in the folder.
+This readme file is organised into two parts. Part 1 cover STNs for single algorithms. Part 2 covers the aggregation of the STNs of two or three algorithms into a single merged STN model.
 
 -------------------------------------------------------------------------------------------------------
-1) create.R: Creates the STN models of single algorithms from raw data and saves them in an output folder.
+
+## Part 1:  Single Algorithms
+
+Three scripts are used for handling single algorithms: 
+1) create.R:  Creates an STN model of the algorithm and saves it in an Rdata file  
+2) plot-alg.R:     Plots the STN model in the given Rdata file producing a PDF file with the plot
+3) metrics-alg.R:  Computes a set of metrics associated to the STN model producing a .csv file 
+
+These are to be run from the command line, in sequence as described below. 
+
+### create.R
+
+Creates the STN models of single algorithms from raw data and saves them in an output folder. The input raw data is given in a folder, and the script will process all the files in the folder.
       - Requires 3 arguments (and a 4th optional argument): 
         1) The name of the folder containing the raw data files. 
         2) The number of runs from the input files to be used. This should be a number between 1 up to total number of runs within in the raw data files.
