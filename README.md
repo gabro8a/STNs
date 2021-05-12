@@ -1,9 +1,9 @@
-#########################################################################
-# Network Analysis of Search Trajectory Networks (STNs)
-# Construction and visualisation of STNs for given (single) algorithms
-# Authors: Gabriela Ochoa, Katherine Malan, Christian Blum
-# Date: May 2021
-#########################################################################
+Network Analysis of Search Trajectory Networks (STNs)
+
+Construction and visualisation of STNs for given (single) algorithms
+Authors: Gabriela Ochoa, Katherine Malan, Christian Blum
+Date: May 2021
+
 
 Requires: R programming language needs to be installed. With the following packages: "igraph", "plyr" and "tidyr". 
 The scripts automate the installation of these required packages, so you do not need to install them before hand. 
@@ -18,7 +18,7 @@ Three scripts are described:
 These are to be run from the command line, in sequence as described below. 
 The input raw data is given in a folder, and the script will process all the files in the folder.
 
-#-------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------
 1) create.R: Creates the STN models of single algorithms from raw data and saves them in an output folder.
       - Requires 3 arguments (and a 4th optional argument): 
         1) The name of the folder containing the raw data files. 
@@ -44,7 +44,7 @@ The input raw data is given in a folder, and the script will process all the fil
       The naming convention for the output file is to add the suffix "-stn" to the input folder name.
   - The second parameter should be from 1 up to total number of runs within in the raw data files.
 
-#-------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------
 2) plot-alg.R:  Plots the STN of a single algorithm.
     - Requires one argument and a 2nd optional argument:
       1) The name of the folder containing the input STN RData files created with the create.R script. 
@@ -77,16 +77,16 @@ The input raw data is given in a folder, and the script will process all the fil
     Rscript metrics-alg.R pmed7-stn 
 
      - This will create a .csv file in the main directory: "rana-stn-metrics.csv" or "pmed7-stn-metics.csv" containing the values of the following metrics for each file in the folder.
-      # instance: Name of the file 
-      # nodes:   Total number of nodes
-      # edges:   Total number of edges
-      # nbest:   Number of best nodes (nodes with equal or lower than given best evaluation), zero if none exist
-      # nend:    Number of nodes at the end of trajectories (excluding the best nodes)
-      # components: Number of connected components
-      # The following metrics only apply if the number of best > 0, otherwise they are NA
-      # strength: Normalised strength (incoming weighted degree) of best nodes - normalised with the number of runs
-      # plength:  verage of the shortest path length from start nodes to the best node, NA if non best exist
-      # npaths:  Number of shortest paths to best optima
+       instance: Name of the file 
+       nodes:   Total number of nodes
+       edges:   Total number of edges
+      nbest:   Number of best nodes (nodes with equal or lower than given best evaluation), zero if none exist
+      nend:    Number of nodes at the end of trajectories (excluding the best nodes)
+      components: Number of connected components
+      The following metrics only apply if the number of best > 0, otherwise they are NA
+      strength: Normalised strength (incoming weighted degree) of best nodes - normalised with the number of runs
+      plength:  average of the shortest path length from start nodes to the best node, NA if non best exist
+      npaths:  Number of shortest paths to best optima
 
 
 
