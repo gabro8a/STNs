@@ -8,11 +8,11 @@ Gabriela Ochoa, Katherine Malan, Christian Blum (2021) [Search trajectory networ
 
 The repository contains a set of  [R](https://cran.r-project.org/) scripts for constructing, visualising and computing metrics of search trajectory networks (STNs) models extracted from running metaheuristics on optimisation problems.  The scripts use the following R packages: [igraph](https://igraph.org/r/), [plyr](https://cran.r-project.org/web/packages/plyr/index.html) and [tidyr](https://tidyr.tidyverse.org/), whose installation is automated within the provided scripts.
 
-The readme is organised into three parts. **Part 1**describes the format of the input data. **Part 2** cover STNs for single algorithms. **Part 3** covers the aggregation of the STNs of two or three algorithms into a single merged STN model.
+The readme is organised into three parts. [Part 1](#part1) describes the format of the input data. [Part 2](#part2) covers STNs for single algorithms. [Part 3](#part3) covers the aggregation of the STNs of two or three algorithms into a single merged STN model.
 
 -------------------------------------------------------------------------------------------------------
 
-## Part 1:  Input Data
+## Part 1: Input Data <a name="part1"></a>
 
 The repository contains two folders (`rana` and `pmed7`) with examples of input files, for continuous and discrete optimisation respectively.  Each folder has 3  files, each corresponding to a different metaheuristic algorithm. Each file contains the trajectory logs of 10 runs of a single instance-algorithm pair. 
 
@@ -30,7 +30,7 @@ Where **Run** is the run number (recall that several runs are used to construct 
 
 For discrete representations, such as binary strings or integer representations with low arity, the signature of a location can be the same than the solution encoding (a compression scheme can be used for large problems).  However, for continuous encodings or other complex representations, a mapping between the solution encoding and a string representing the location signature is required. There are different ways of implemented such mapping. A detailed description of how we have implemented this, can be found [here](). (tbc) 
 
-## Part 2:  STNs for Single Algorithms
+## Part 2: STNs for Single Algorithms <a name="part2"></a>
 
 Three scripts are used for handling single algorithms: 
 
@@ -108,7 +108,7 @@ Running the command will create a `.csv` file in the main directory: `rana-stn-m
 - *plength*: average of the shortest path length from start nodes to the best node. *NA* if *nbest* = 0
 - *npaths*: number of shortest paths to best optima. Zero if *nbest* = 0
 
-## Part 3: Merged STNs 
+## Part 3: Merged STNs <a name="part3"></a>
 
 The STNs of two or three algorithms can be merged into a single STN model. Three scripts are provided to handle merged STNs.
 
