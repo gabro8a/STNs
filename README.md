@@ -1,6 +1,6 @@
 # Search Trajectory Networks (STNs)
 
-<img src="/Users/gabriela/Dropbox/STNs/STNs/images/STN.png" alt="STN" style="zoom:15%;" />Construction, visualisation and analysis.
+<img src="/images/STN.png" alt="STN" width="120" />   Construction, visualisation and analysis.
 
 STNs can be constructed for single algorithms (evolutionary algorithms and other metaheuristics) when solving instances of continuous or combinatorial optimisation problems. Once constructed, the STNs of  two or three algorithms can be merged into a single STN model, which facilitates contrasting the behaviour of the studied algorithms. This repository is associated to the following research article:
 
@@ -9,8 +9,6 @@ Gabriela Ochoa, Katherine Malan, Christian Blum (2021) [Search trajectory networ
 The repository contains a set of  [R](https://cran.r-project.org/) scripts for constructing, visualising and computing metrics of search trajectory networks (STNs) models extracted from running metaheuristics on optimisation problems.  The scripts use the following R packages: [igraph](https://igraph.org/r/), [plyr](https://cran.r-project.org/web/packages/plyr/index.html) and [tidyr](https://tidyr.tidyverse.org/), whose installation is automated within the provided scripts.
 
 The readme is organised into three parts. **Part 1**describes the format of the input data. **Part 2** cover STNs for single algorithms. **Part 3** covers the aggregation of the STNs of two or three algorithms into a single merged STN model.
-
-[TOC]
 
 -------------------------------------------------------------------------------------------------------
 
