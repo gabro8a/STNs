@@ -1,6 +1,6 @@
 # Search Trajectory Networks (STNs)
 
-<img src="/images/STN.png" alt="STN" width="120" />   Construction, visualisation and analysis.
+<img src="/images/STN.png" alt="STN" width="125" />   Construction, visualisation and analysis.
 
 STNs can be constructed for single algorithms (evolutionary algorithms and other metaheuristics) when solving instances of continuous or combinatorial optimisation problems. Once constructed, the STNs of  two or three algorithms can be merged into a single STN model, which facilitates contrasting the behaviour of the studied algorithms. This repository is associated to the following research article:
 
@@ -34,15 +34,15 @@ For discrete representations, such as binary strings or integer representations 
 
 Three scripts are used for handling single algorithms: 
 
-1. **create.R** - Creates an STN model of the algorithm and saves it in an `.Rdata` file  
-2. **plot-alg.R** - Plots the STN model in the given Rdata file producing a `.pdf` file with the plots
-3. **metrics-alg.R** - Computes a set of metrics associated to the STN model producing a `.csv` file 
+1. [create.R](#create) - Creates an STN model of the algorithm and saves it in an `.Rdata` file  
+2. [plot-alg.R](#plot-alg) - Plots the STN model in the given Rdata file producing a `.pdf` file with the plots
+3. [metrics-alg.R](#metrics-alg) - Computes a set of metrics associated to the STN model producing a `.csv` file 
 
 These are to be run from the command line, in sequence as described below. 
 
 ------
 
-### create.R
+### create.R <a name="create"></a>
 
 Creates the STN models of single algorithms from raw data and saves the crated models in an output folder. The input raw data is read from a folder, and the script will process all the files in the folder. The command requires one argument and three optional arguments: 
 
@@ -63,7 +63,7 @@ Rscript create.R pmed7 2
 Running the command will create a folder: `rana-stn` or `pmed7-stn` with the RData files containing the STN graphs. The naming convention for the output file is to add the suffix-`stn` to the input folder name.
 
 -------------------------------------------------------------------------------------------------
-### plot-alg.R
+### plot-alg.R <a name="plot-alg"></a>
 
 Plots the STN of a single algorithm. The command requires one argument and a second optional argument:
 
@@ -85,7 +85,7 @@ Each file contains 2 plots (2 pages, 1 plot per page), each showing a different 
 
 ------
 
-### metrics-alg.R 
+### metrics-alg.R <a name="metrics-alg"></a>
 
 Computes a set of metrics associated to the STN models producing a `.csv` file. The command requires a  single argument:
 
@@ -112,15 +112,15 @@ Running the command will create a `.csv` file in the main directory: `rana-stn-m
 
 The STNs of two or three algorithms can be merged into a single STN model. Three scripts are provided to handle merged STNs.
 
-1. **merge.R** - Creates the merged STN model from the single STN models of 2 or 3 algorithms. 
-2. **plot-merged.R** - Plots the merged STN model in the given `.Rdata` file producing a `.pdf` file with the plots
-3. **metrics-merged.R** - Computes a set of metrics associated to the merded STN model producing a `.csv` file 
+1. [merge.R](#merge) - Creates the merged STN model from the single STN models of 2 or 3 algorithms. 
+2. [plot-merged.R](#plot-merged)- Plots the merged STN model in the given `.Rdata` file producing a `.pdf` file with the plots
+3. [metrics-merged.R](#metrics-merged) - Computes a set of metrics associated to the merded STN model producing a `.csv` file 
 
 These are to be run from the command line, in sequence as described below. 
 
 ------
 
-### merge.R
+### merge.R <a name="merge"></a>
 
 Creates the merged STN model from the single STNs of 2 or 3 algorithms. More than 3 STNs cannot be merged with the current version of the software. Future versions may allow this, but bear in mind that the models may get too large, and visualisation and analysis might  become difficult. The idea is to contrast the 2 or 3 best-performing algorithms for your problem, rather than contrasting too many algorithms simultaneously. 
 
@@ -141,7 +141,7 @@ Running the command will create an  `.Rdata` file:   `rana-stn-merged.RData` or 
 
 -------------------------------------------------------------------------------------------------
 
-### plot-merged.R
+### plot-merged.R <a name="plot-merged"></a>
 
 Plots the merged STN model given as input. The command requires one argument and a second optional argument:
 
@@ -163,7 +163,7 @@ Each file contains 4 plots (4 pages, 1 plot per page). The 1st and 2nd plots sho
 
 ------
 
-### metrics-merged.R 
+### metrics-merged.R  <a name="metrics-merged"></a>
 
 Computes a set of metrics associated to the merged STN model producing a `.csv` file with the metrics. The command requires a single argument:
 
