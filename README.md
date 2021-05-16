@@ -2,7 +2,7 @@
 
 <img src="/images/STN.png" alt="STN" width="125" />   Construction, visualisation and analysis.
 
-STNs can be constructed for single algorithms (evolutionary algorithms and other metaheuristics) when solving instances of continuous or combinatorial optimisation problems. Once constructed, the STNs of  two or three algorithms can be merged into a single STN model, which facilitates contrasting the behaviour of the studied algorithms. This repository is associated to the following research article:
+STNs can be constructed for single algorithms (evolutionary algorithms and other metaheuristics) when solving instances of continuous or combinatorial optimisation problems. Once constructed, the STNs of  two or three algorithms can be merged into a single STN model, which facilitates contrasting the behaviour of the studied algorithms. This repository is associated with the following research article:
 
 Gabriela Ochoa, Katherine Malan, Christian Blum (2021) [Search trajectory networks](stns_asoc_2021.pdf): A tool for analysing and visualising the behaviour of metaheuristics, *Applied Soft Computing*, Elsevier. https://doi.org/10.1016/j.asoc.2021.107492
 
@@ -18,7 +18,7 @@ The repository contains two folders (`rana` and `pmed7`) with examples of input 
 
 The files report a list of transitions between consecutive locations in the search space. Each line contains the number of the run, followed by the start and end location of each transition.  So the input files are edges-list used to construct the STN models. 
 
-Let us consider the simple example of the *Onemax* problem for solutions of lenght 10.  The search space consists of binary strings of lenght 10, and fitness is an integer value counting the number of ones in the string. The format of the input files for a metaheuristic solving this problem would be as follows: 
+Let us consider the simple example of the *Onemax* problem for solutions of length 10.  The search space consists of binary strings of length 10, and fitness is an integer value counting the number of ones in the string. The format of the input files for a metaheuristic solving this problem would be as follows: 
 
 | Run  | Fitness1 | Solution1  | Fitness2 | Solution2  |
 | ---- | -------- | ---------- | -------- | ---------- |
@@ -28,7 +28,7 @@ Let us consider the simple example of the *Onemax* problem for solutions of leng
 
 Where **Run** is the run number (recall that several runs are used to construct an STN model). For each step in the trajectory,  **Fitness1**  and **Solution1** are the fitness value and signature, respectively, of the of the *start* location;  and **Fitness2**  and **Solution2** are the fitness value and signature, respectively, of the of the *end* location. Notice that each step in the trajectory has a *start* and *end* location, and the *start* of the subsequent step is the same as the *end* of the preceding step.
 
-For discrete representations, such as binary strings or integer representations with low arity, the signature of a location can be the same than the solution encoding (a compression scheme can be used for large problems).  However, for continuous encodings or other complex representations, a mapping between the solution encoding and a string representing the location signature is required. There are different ways of implemented such mapping. A detailed description of how we have implemented this, can be found [here](). (tbc) 
+For discrete representations, such as binary strings or integer representations with low arity, the signature of a location can be the same as the solution encoding (a compression scheme can be used for large problems).  However, for continuous encodings or other complex representations, a mapping between the solution encoding and a string representing the location signature is required. There are different ways of implemented such mapping. A detailed description of how we have implemented this, can be found [here](). (tbc) 
 
 ## Part 2: STNs for Single Algorithms <a name="part2"></a>
 
@@ -44,7 +44,7 @@ These are to be run from the command line, in sequence as described below.
 
 ### create.R <a name="create"></a>
 
-Creates the STN models of single algorithms from raw data and saves the crated models in an output folder. The input raw data is read from a folder, and the script will process all the files in the folder. The command requires one argument and three optional arguments: 
+Creates the STN models of single algorithms from raw data and saves the created models in an output folder. The input raw data is read from a folder, and the script will process all the files in the folder. The command requires one argument and three optional arguments: 
 
 1. The name of the folder containing the raw data files [*Required*].
 2. The number of runs from the input files to be used [*Optional*]. This should be a number between 1 up to total number of runs within in the raw data files. If no argument is given, the largest run number in the collection of input files is used.
@@ -70,7 +70,7 @@ Plots the STN of a single algorithm. The command requires one argument and a sec
 1. The name of the folder containing the input STN `RData` files created with the `create.R` script [*Required*]. 
 2. A numeric value/real number (size factor) [*Optional*] that multiplies the base size of nodes and edges, so you can make them larger or smaller. The default value of this parameter is 1.
 
-Below, some examples of how to run the `plot-alg.R` script from the command line, using a folder with `RData` files with STN models previosly created the `create.R` script:
+Below, some examples of how to run the `plot-alg.R` script from the command line, using a folder with `RData` files with STN models previously created using the `create.R` script:
 
 ```
 Rscript plot-alg.R rana-stn 
@@ -91,7 +91,7 @@ Computes a set of metrics associated to the STN models producing a `.csv` file. 
 
 1. The name of the folder containing the input STN `RData` files created with the `create.R` script  [*Required*]. 
 
-Below, some examples of how to run the `metrics-alg.R` script from the command line, using a folder with `RData` files with STN models Running created the `create.R` script:
+Below, some examples of how to run the `metrics-alg.R` script from the command line, using a folder with `RData` files containing STN models created by previously running the `create.R` script:
 
     Rscript metrics-alg.R rana-stn 
     Rscript metrics-alg.R pmed7-stn 
@@ -126,7 +126,7 @@ Creates the merged STN model from the single STNs of 2 or 3 algorithms. More tha
 
 It is expected that the 2 or 3 STN models to merge (`.RData` files produced by the `creat.R` script) are located in a folder, and their file names start with the algorithm acronym followed by a '`_`'. For example, `ILS_`_,`GA_`_, `PSO_`, etc.   
 
- The command requires  single argument:
+ The command requires a single argument:
 
 1. The name of the folder containing the input STN `RData` files created with the `create.R` script  [*Required*]. 
 
