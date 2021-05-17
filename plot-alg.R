@@ -12,7 +12,7 @@
 args = commandArgs(trailingOnly=TRUE)   # Take command line arguments
 if (length(args) < 1) { #  Test if there are two arguments if not, return an error
   stop("One rgument is required: the input folder with stn objects. \\
-        A 2nd argument can be given, a size factor for nodes and edges", call.=FALSE)
+        A 2nd argument can be given, a size numeric factor for nodes and edges", call.=FALSE)
 }
 infolder <- args[1]
 
@@ -20,10 +20,18 @@ if (!dir.exists(infolder) ){
   stop("Input folder does not exist", call.=FALSE)
 }
 
-if (length(args) == 2) {
+# Create outfolder folder to save STN objects  -- rule append "-plot" to input folder
+outfolder <- paste0(infolder,"-plot")
+
+if (!dir.exists(outfolder) ){
+  dir.create(outfolder)
+}
+cat("Output folder: ", outfolder, "\n")
+
+if (length(args) > 1) {
   size_factor <- as.integer(args[2])
 } else {
-  size_factor <- 1.5
+  size_factor <- 1
 }
 
 if (is.na(size_factor)) {
@@ -73,7 +81,7 @@ add_shape("triangle", clip=shapes("circle")$clip,
 
 
 # Legend
-legend.txt <- c("Start", "End", "Itermed.", "Best", "Improve", "Equal", "Worse")
+legend.txt <- c("Start", "End", "Medium", "Best", "Improve", "Equal", "Worse")
 legend.col <- c(start_ncol, end_ncol, std_ncol, best_ncol,impru_ecol,equal_ecol,worse_ecol)
 legend.shape <- c(15,17,21,21,NA,NA,NA)  # Circles for nodes and NA (no shape) for edges
 legend.lty <-  c(NA,NA,NA,NA,1,1,1)   # Line style, NA for nodes, solid line for edges
@@ -93,7 +101,7 @@ plotNet <-function(N, tit, nsizef, ewidthf, asize, ecurv, mylay)
   if (maxns  > 100) {   # for very large nodes use sqrt for scaling size
     nsize <-  nsizef * sqrt(V(N)$size)  + 1
   } else {
-    if (maxns  > 10) {   # for large nodes, use half of zize
+    if (maxns  > 10) {   # for large nodes, use half of size
       nsize <- nsizef * 0.5*V(N)$size   + 1
     } else {
       nsize <-  nsizef * V(N)$size
@@ -102,14 +110,16 @@ plotNet <-function(N, tit, nsizef, ewidthf, asize, ecurv, mylay)
   ewidth <- ewidthf * E(N)$width
   title <- paste(tit,'Nodes:',vcount(N), 'Edges:',ecount(N), 'Comp:', components(N)$no)
   print(title)
-  plot(N, layout = mylay, vertex.label = "", vertex.size = nsize, 
+  plot(N, layout = mylay, vertex.label = "", vertex.size = nsize, main = title,
        edge.width = ewidth, edge.arrow.size = asize, edge.curved = ecurv)
   legend("topleft", legend.txt, pch = legend.shape, col = legend.col, 
          pt.bg=legend.col, lty = legend.lty,
          cex = 0.7, pt.cex=1.35, bty = "n")
 }
 
-# Decorate an STN for the purpuses of visualising a single algorithm STN
+# Decorate nodes and edges an STN for visualising a single algorithm STN
+# N: Graph object
+# bmin: Boolean indicating minimisation or not
 
 stn_decorate <- function(N, bmin)  {
   el<-as_edgelist(N)
@@ -135,25 +145,25 @@ stn_decorate <- function(N, bmin)  {
   # width of edges proportional to weight - times visited
   E(N)$width <- E(N)$weight
   
-  # Decoration of LON
   # Color of Nodes
   V(N)$color <- std_ncol  # default color of nodes
   V(N)[V(N)$Type == "start"]$color = start_ncol  # Color of start nodes
   V(N)[V(N)$Type == "end"]$color = end_ncol  # Color of end of runs nodes
   V(N)[V(N)$Type == "best"]$color = best_ncol   # Color of  best nodes
- 
-    # Shape of nodes
+  
+  # Shape of nodes
   V(N)$shape <- "circle"  # circle is the default shape
   V(N)[V(N)$Type == "start"]$shape = "square"  # Square for start nodes
   V(N)[V(N)$Type == "end"]$shape = "triangle"  # Triangle for start nodes
   
-  # Frame colors are the same as node colors, white around best to highlight it
+  # Frame colors are the same as node colors. White  frame for best nodes to highlight them
   V(N)$frame.color <- V(N)$color
   V(N)[V(N)$Type == "best"]$frame.color <- "white"
   
   # Size of Nodes Proportional to  incoming degree, 
   V(N)$size <- strength(N, mode="in") + 1   # nodes with strength 0 have at least size 1 
   V(N)[V(N)$Type == "best"]$size = V(N)[V(N)$Type == "best"]$size + 0.5 # Increase a bit size of best node
+  
   return(N)
 }
 
@@ -174,14 +184,6 @@ stn_plot <- function(inst)  {
   dev.off()
   return(vcount(STN))
 }
-
-# Create outfolder folder to save STN objects  -- rule append "-plot" to input folder
-outfolder <- paste0(infolder,"-plot")
-
-if (!dir.exists(outfolder) ){
-  dir.create(outfolder)
-}
-cat("Output folder: ", outfolder, "\n")
 
 # ---- Process all datasets in the given inpath folder ----------------
 dataf <- list.files(infolder)
