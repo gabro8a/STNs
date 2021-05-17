@@ -9,34 +9,57 @@
 # ---------- Processing inputs from command line ----------
 args = commandArgs(trailingOnly=TRUE)   # Take command line arguments
 #  Test if there are two arguments if not, return an error
-if (length(args) < 3) {
-  stop("3 arguments are required, and the 4th is optional: \ 
-       1) The input folder and \
-       2) The number of runs from data to be used.\
-       3) The global optimum (or best-knwon solution) evaluation (with the desired precision).\
-       4) Optional argument  0: Maximisation, 1 : Minimisation (default).", call.=FALSE)
+if (length(args) < 1) {
+  stop("The first argument is required, arguments 2 to 4 are optional: \ 
+       1) The input folder 
+       2) The number of runs from data to be used. This should be a number between 1 up to total number of runs within in the raw data files. If no argument is given, the largest run number in the collection of input files is used.
+       3) The evaluation of global optimum (or best-knwon solution). For continous optimisation a required precision can be given. with the desired precision). If no argument is given, the best evaluation value in the collection of input files is used.\
+       4) Boolean indicating minimisation (1) or maximisation (0). If no argument is given, minimisation (i.e 1) is assumed."
+       , call.=FALSE)
 }
 
 infolder <- args[1]
-nruns <- as.integer(args[2])
-best <- as.numeric(args[3])
+
+if (!dir.exists(infolder) ){
+  stop("Error: Input folder does not exist", call.=FALSE)
+}
+
+# Default values of parameters if not given in command line.
+best <- NA   # Not given in command line, taken from data
+nruns <-NA   # Not given om command line, taken from data
 bmin <- 1
+
+if (length(args) > 1){
+  nruns <- as.integer(args[2]) 
+  if (is.na(nruns)) {
+    stop("Error: 2nd argument is not a number", call.=FALSE)
+  }
+}
+
+if (length(args) > 2) {
+  best <- as.numeric(args[3])
+  if (is.na(best)) {
+    stop("Error: 3rd argument is not a number", call.=FALSE)
+  }
+}
 
 if (length(args) > 3){
   bmin <- as.integer(args[4])
+  if (is.na(bmin)) {
+    stop("Error: 4th  argument is not a number", call.=FALSE)
+  }
 }
 
-if (!dir.exists(infolder) ){
-  stop("Input folder does not exist", call.=FALSE)
-}
 
-if (is.na(nruns)) {
-  stop("2nd (number of runs) argument is not a number", call.=FALSE)
-}
+# Create outfolder folder to save STN objects  -- rule append "-stn" to input folder
 
-if (is.na(best)) {
-  stop("3nd argument (best-known) is not a number", call.=FALSE)
+outfolder <- paste0(infolder,"-stn")
+
+if (!dir.exists(outfolder) ){
+  dir.create(outfolder)
 }
+cat("Output folder: ", outfolder, "\n")
+
 
 ## Packages required
 # igraph: tools handling graph objects
@@ -58,6 +81,8 @@ package.check <- lapply(
   }
 )
 
+
+#-----------------------------------------------------------------------------------------------
 # Function for Creating the STN of a given instance/algorithm 
 # Read data from text input file and construct the STN network model
 # Saves the STN oject in a file within the outfolder
@@ -129,21 +154,46 @@ stn_create <- function(instance)  {
   return(vcount(STN))
 }
 
-# Create outfolder folder to save STN objects  -- rule append "-stn" to input folder
 
-outfolder <- paste0(infolder,"-stn")
+#--------------------------------------------------------------------------------
+# Extracts the required data fro the input file
+# Input:  String with name of file
+# Output: Data frame with trace data, 2) name of output file .Rdata
 
-if (!dir.exists(outfolder) ){
-  dir.create(outfolder)
+get_data <- function(instance) {
+  trd <- read.table(paste0(infolder,"/",instance), header=T,
+                    colClasses=c("integer", "numeric", "character", "numeric", "character"),
+                    stringsAsFactors = F)
+  return (trd)
 }
-cat("Output folder: ", outfolder, "\n")
 
-# ---- Process all datasets in the given inpath folder ----------------
+
+# ---- Process all data files in the given input folder ----------------
 data_files <- list.files(infolder)
 
-nsizes <- lapply(data_files, stn_create)  # Applies stn_creat function to all files
+# This is only executed if the nruns or best parameters are not given
+
+if (is.na(best) | is.na(nruns))  {
+  dfs <- lapply(data_files, get_data)  # Store data in a list, so is an argument to create function 
+  # If best its not given, determine it from all files in the folder
+  if (is.na(best)) {
+    l <- lapply(dfs, function(x) {x[c("Fitness2")]})  # Extract Fitness
+    v <- unlist(l, recursive = T)   # Take all the fitness values
+    best <- ifelse(bmin, min(v), max(v))
+    cat("Best value in data:", best, "\n")
+  }
+  
+  # If nruns its not given, determine it from all files 
+  if (is.na(nruns)) {
+    l <- lapply(dfs, function(x) {x[c("Run")]})  # Extract Runs
+    nruns <- max(unlist(l, recursive = T))
+    cat("Number of runs in data:", nruns, "\n")
+  }
+  remove(dfs)
+}
+
+nsizes <- lapply(data_files, stn_create)  # Applies stn_create function to all files
 print("Numer of nodes in the STNs created:")
 print(as.numeric(nsizes))
-
 
 
