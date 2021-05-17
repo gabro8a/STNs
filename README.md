@@ -7,7 +7,7 @@ STNs can be constructed for single algorithms (evolutionary algorithms and other
 Gabriela Ochoa, Katherine Malan, Christian Blum (2021) [Search trajectory networks](https://authors.elsevier.com/a/1d4u35aecSjv5w): A tool for analysing and visualising the behaviour of metaheuristics, *Applied Soft Computing*, Elsevier. https://doi.org/10.1016/j.asoc.2021.107492
 
 Access the article from:  
-- Authors link: https://authors.elsevier.com/a/1d4u35aecSjv5w
+- Authors' personalised [Share Link](https://authors.elsevier.com/a/1d4u35aecSjv5w)
 - Local [pre-print](stns_asoc_2021.pdf)
 
 The repository contains a set of  [R](https://cran.r-project.org/) scripts for constructing, visualising and computing metrics of search trajectory networks (STNs) models extracted from running metaheuristics on optimisation problems.  The scripts use the following R packages: [igraph](https://igraph.org/r/), [plyr](https://cran.r-project.org/web/packages/plyr/index.html) and [tidyr](https://tidyr.tidyverse.org/), whose installation is automated within the provided scripts.
