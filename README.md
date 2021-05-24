@@ -12,13 +12,16 @@ Access the article from:
 
 The repository contains a set of  [R](https://cran.r-project.org/) scripts for constructing, visualising and computing metrics of search trajectory networks (STNs) models extracted from running metaheuristics on optimisation problems.  The scripts use the following R packages: [igraph](https://igraph.org/r/), [plyr](https://cran.r-project.org/web/packages/plyr/index.html) and [tidyr](https://tidyr.tidyverse.org/), whose installation is automated within the provided scripts.
 
-The readme is organised into three parts. [Part 1](#part1) describes the format of the input data. [Part 2](#part2) covers STNs for single algorithms. [Part 3](#part3) covers the aggregation of the STNs of two or three algorithms into a single merged STN model.
+The readme is structured as follows:
+1. [Input Data](#part1): describes the format of the input data. 
+2. [STNs for single Algorithms](#part2): covers the construction, visualisation and metrics of STNs for single algorithms. 
+3. [Merged STNs](#part3): covers the aggregation of the STNs of two or three algorithms into a single merged STN model.
 
 -------------------------------------------------------------------------------------------------------
 
-## Part 1: Input Data <a name="part1"></a>
+## 1. Input Data <a name="part1"></a>
 
-The repository contains two folders (`rana` and `pmed7`) with examples of input files, for continuous and discrete optimisation respectively.  Each folder has 3  files, each corresponding to a different metaheuristic algorithm. Each file contains the trajectory logs of 10 runs of a single instance-algorithm pair. 
+The repository contains two folders ([rana](rana) and [pmed7](pmed7)) with examples of input files, for continuous and discrete optimisation respectively.  Each folder has 3  files, each corresponding to a different metaheuristic algorithm. Each file contains the trajectory logs of 10 runs of a single instance-algorithm pair. 
 
 The files report a list of transitions between consecutive locations in the search space. Each line contains the number of the run, followed by the start and end location of each transition.  So the input files are edges-list used to construct the STN models. 
 
@@ -34,15 +37,16 @@ Where **Run** is the run number (recall that several runs are used to construct 
 
 For discrete representations, such as binary strings or integer representations with low arity, the signature of a location can be the same as the solution encoding (a compression scheme can be used for large problems).  However, for continuous encodings or other complex representations, a mapping between the solution encoding and a string representing the location signature is required. There are different ways of implemented such mapping. A detailed description of how we have implemented this, can be found [here](). (tbc) 
 
-## Part 2: STNs for Single Algorithms <a name="part2"></a>
+## 2. STNs for Single Algorithms <a name="part2"></a>
 
-Three scripts are used for handling single algorithms: 
+The following scripts are used for handling single algorithms: 
 
-1. [create.R](#create) - Creates an STN model of the algorithm and saves it in an `.Rdata` file  
-2. [plot-alg.R](#plot-alg) - Plots the STN model in the given Rdata file producing a `.pdf` file with the plots
-3. [metrics-alg.R](#metrics-alg) - Computes a set of metrics associated to the STN model producing a `.csv` file 
+- [create.R](#create) - Creates STN models from raw data
+- [plot-alg.R](#plot-alg) - Plots STN models using force-directed graph layout algorithms
+- [plot-alg-tree.R](#plot-alg-tree) - Plots STN models using a tree layout algorithm
+- [metrics-alg.R](#metrics-alg) - Computes a set of metrics associated to the STN models  
 
-These are to be run from the command line, in sequence as described below. 
+These are to be run from the command line as described below. 
 
 ------
 
@@ -69,7 +73,7 @@ Running the command will create a folder: `rana-stn` or `pmed7-stn` with the RDa
 -------------------------------------------------------------------------------------------------
 ### plot-alg.R <a name="plot-alg"></a>
 
-Plots the STN of a single algorithm. The command requires one argument and a second optional argument:
+Plots the STNs of single algorithms. The command requires one argument and a second optional argument:
 
 1. The name of the folder containing the input STN `RData` files created with the `create.R` script [*Required*]. 
 2. A numeric value/real number (size factor) [*Optional*] that multiplies the base size of nodes and edges, so you can make them larger or smaller. The default value of this parameter is 1.
@@ -85,7 +89,27 @@ Rscript plot-alg.R pmed7-stn 2
 
 Running the command  will create a folder: `rana-stn-plot` or `pmed7-stn-plot` containing  .`pdf` files with visualisations of the STN models. As the naming convention for the output folder, we add the suffix "-plot" to the input folder name.  
 
-Each file contains 2 plots (2 pages, 1 plot per page), each showing a different [force-directed graph layout](https://en.wikipedia.org/wiki/Force-directed_graph_drawing) visualisation of the same graph.  The first plot uses the Fruchterman-Reingold (FR) layout and the second the Kamada-Kawai (KK) layout as implemented in igraph.
+Each file contains 2 plots (2 pages, 1 plot per page), each showing a different [force-directed graph layout](https://en.wikipedia.org/wiki/Force-directed_graph_drawing) visualisation of the same graph. Force-directed layouts try to get a nice-looking graph where edges are similar in length and cross each other as little as possible. The first plot uses the Fruchterman-Reingold (FR) layout and the second the Kamada-Kawai (KK) layout as implemented in igraph.
+
+-------------------------------------------------------------------------------------------------
+### plot-alg-tree.R <a name="plot-alg-tree"></a>
+
+Plots the STNs of single algorithms using a tree layout. The command works in the same way as the [plot-alg.R](#plot-alg) command described above.
+
+```
+Rscript plot-alg-tree.R rana-stn 
+Rscript plot-alg-tree.R rana-stn 0.8
+Rscript plot-alg-tree.R pmed7-stn 
+Rscript plot-alg-tree.R pmed7-stn 2
+```
+
+Running the command  will create a folder: `rana-stn-plot-tree` or `pmed7-stn-plot-tree` containing  .`pdf` files with visualisations of the STN models. As the naming convention for the output folder, we add the suffix "-plot-tree" to the input folder name.
+
+Each file contains a single plot visualising the STN using the [Reingold-Tilford](https://igraph.org/r/doc/layout_as_tree.html) graph layout algorithm as implemented in igraph. This layout arranges the nodes in a tree where the given node is used as the root. The tree is directed downwards and the parents are centered above its children.  
+
+This layout is perfect for trees, and sometimes acceptable for graphs with not too many cycles.  It does not work well for graphs with many cycles. This is why we are providing it as a separate script. 
+
+STNs are close to trees in some cases, especially for very large search spaces when there is little overlap between the trajectories, even after partitioning the search space. 
 
 ------
 
@@ -112,15 +136,16 @@ Running the command will create a `.csv` file in the main directory: `rana-stn-m
 - *plength*: average of the shortest path length from start nodes to the best node. *NA* if *nbest* = 0
 - *npaths*: number of shortest paths to best optima. Zero if *nbest* = 0
 
-## Part 3: Merged STNs <a name="part3"></a>
+## 3. Merged STNs <a name="part3"></a>
 
-The STNs of two or three algorithms can be merged into a single STN model. Three scripts are provided to handle merged STNs.
+The STNs of two or three algorithms can be merged into a single STN model. The following scripts are provided to handle merged STNs.
 
-1. [merge.R](#merge) - Creates the merged STN model from the single STN models of 2 or 3 algorithms. 
-2. [plot-merged.R](#plot-merged)- Plots the merged STN model in the given `.Rdata` file producing a `.pdf` file with the plots
-3. [metrics-merged.R](#metrics-merged) - Computes a set of metrics associated to the merded STN model producing a `.csv` file 
+- [merge.R](#merge) - Creates the merged STN model from the single STN models of 2 or 3 algorithms
+- [plot-merged.R](#plot-merged)- Plots the merged STN model using force-directed layout algorithms
+- [plot-merged-tree.R](#plot-merged-tree)- Plots the merged STN model using a tree layout algorithms
+- [metrics-merged.R](#metrics-merged) - Computes a set of metrics associated to the merded STN model
 
-These are to be run from the command line, in sequence as described below. 
+These are to be run from the command line as described below. 
 
 ------
 
@@ -161,12 +186,31 @@ Rscript plot-merged.R pmed7-stn-merged.RData
 Rscript plot-merged.R pmed7-stn-merged.Rdata 2
 ```
 
-Running the command  will create a file: `rana-stn-merged-plot.pdf` or `pmed7-stn-plot.pdf` with the network visualisations. 
+Running the command will create a file: `rana-stn-merged-plot.pdf` or `pmed7-stn-plot.pdf` with the network visualisations. 
 
 Each file contains 4 plots (4 pages, 1 plot per page). The 1st and 2nd plots show the whole network visualised with 2 different [force-directed graph layout](https://en.wikipedia.org/wiki/Force-directed_graph_drawing) algorithms (Fruchterman-Reingold (FR) and  Kamada-Kawai (KK) layouts), respectively. The 3rd and 4th plots show  a sub-graph of the whole network. Specifically, the nodes with fitness values in the top 25% percentile. Again two alternative graph layouts (Fruchterman-Reingold (FR) and  Kamada-Kawai (KK) layouts) are used.
 
-------
+-------------------------------------------------------------------------------------------------
+### plot-merged-tree.R <a name="plot-merged-tree"></a>
 
+Plots the merged STN model given as input using a tree layout. The command works in the same way as the [plot-merged.R](#plot-merged) command described above.
+
+```
+Rscript plot-merged-tree.R rana-stn-merged.RData 
+Rscript plot-merged-tree.R rana-stn-merged.RData 0.8
+Rscript plot-merged-tree.R pmed7-stn-merged.RData 
+Rscript plot-merged-tree.R pmed7-stn-merged.Rdata 2
+```
+
+Running the command will create a file: `rana-stn-merged-plot-tree.pdf` or `pmed7-stn-plot-tree.pdf` with the network visualisation. 
+
+The file contains a single plot visualising the merged STN using the [Reingold-Tilford](https://igraph.org/r/doc/layout_as_tree.html) graph layout algorithm as implemented in igraph. This layout arranges the nodes in a tree where the given node is used as the root. The tree is directed downwards and the parents are centered above its children.  
+
+This layout is perfect for trees, and sometimes acceptable for graphs with not too many cycles.  It does not work well for graphs with many cycles. This is why we are providing it as a separate script. 
+
+STNs are close to trees in some cases, especially for very large search spaces when there is little overlap between the trajectories, even after partitioning the search space. This layout can be informative as it shows clearly which algorithm has shorter or longer trajectories.
+
+-------------------------------------------------------------------------------------------------
 ### metrics-merged.R  <a name="metrics-merged"></a>
 
 Computes a set of metrics associated to the merged STN model producing a `.csv` file with the metrics. The command requires a single argument:
