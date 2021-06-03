@@ -23,6 +23,8 @@ The readme is structured as follows:
 
 The repository contains two folders ([rana](rana) and [pmed7](pmed7)) with examples of input files, for continuous and discrete optimisation respectively.  Each folder has 3  files, each corresponding to a different metaheuristic algorithm. Each file contains the trajectory logs of 10 runs of a single instance-algorithm pair. 
 
+The input files can be formatted as either space/tab separated or comma-separated files. If comma separated files are used, their extension should be .`csv`. For space/tab separated files, any other file extension can be used (such as `.txt` or `.out`).
+
 The files report a list of transitions between consecutive locations in the search space. Each line contains the number of the run, followed by the start and end location of each transition.  So the input files are edges-list used to construct the STN models. 
 
 Let us consider the simple example of the *Onemax* problem for solutions of length 10.  The search space consists of binary strings of length 10, and fitness is an integer value counting the number of ones in the string. The format of the input files for a metaheuristic solving this problem would be as follows: 
