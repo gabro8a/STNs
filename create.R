@@ -91,7 +91,9 @@ package.check <- lapply(
 stn_create <- function(instance)  {
   fname <- paste0(infolder,"/",instance)
   print(fname)
-  trace_all <- read.table(fname, header=T,
+  file_ext <- substr(fname, nchar(fname)-3, nchar(fname))
+  mysep <- ifelse(file_ext == ".csv", ",","")
+  trace_all <- read.table(fname, header=T, sep = mysep,
                           colClasses=c("integer", "numeric", "character", "numeric", "character"),
                           stringsAsFactors = F)
   trace_all <- trace_all[trace_all$Run <= nruns,]
@@ -161,7 +163,9 @@ stn_create <- function(instance)  {
 # Output: Data frame with trace data, 2) name of output file .Rdata
 
 get_data <- function(instance) {
-  trd <- read.table(paste0(infolder,"/",instance), header=T,
+  file_ext <- substr(instance, nchar(instance)-3, nchar(instance))
+  mysep <- ifelse(file_ext == ".csv", ",", "")
+  trd <- read.table(paste0(infolder,"/",instance), header=T, sep = mysep,
                     colClasses=c("integer", "numeric", "character", "numeric", "character"),
                     stringsAsFactors = F)
   return (trd)
@@ -193,7 +197,7 @@ if (is.na(best) | is.na(nruns))  {
 }
 
 nsizes <- lapply(data_files, stn_create)  # Applies stn_create function to all files
-print("Numer of nodes in the STNs created:")
+print("Number of nodes in the STNs created:")
 print(as.numeric(nsizes))
 
 
