@@ -11,10 +11,12 @@ args = commandArgs(trailingOnly=TRUE)   # Take command line arguments
 #  Test if there are two arguments if not, return an error
 if (length(args) < 1) {
   stop("The first argument is required, arguments 2 to 4 are optional: \ 
-       1) The input folder 
-       2) The number of runs from data to be used. This should be a number between 1 up to total number of runs within in the raw data files. If no argument is given, the largest run number in the collection of input files is used.
-       3) The evaluation of global optimum (or best-knwon solution). For continous optimisation a required precision can be given. with the desired precision). If no argument is given, the best evaluation value in the collection of input files is used.\
-       4) Boolean indicating minimisation (1) or maximisation (0). If no argument is given, minimisation (i.e 1) is assumed."
+       1) Name of the input folder 
+       2) Boolean indicating minimisation (1) or maximisation (0). If no argument is given, minimisation (i.e 1) is assumed.
+       3) The evaluation of the global optimum (or best-knwon solution). For continous optimisation a desired precision can be given. 
+       If no argument is given, the best evaluation in the set of input files is used.
+       4) The number of runs from the data filesto be used. This should be a number between 1 up to total number of runs within in the raw data files. 
+       If no argument is given, the largest run number in the input files is used."
        , call.=FALSE)
 }
 
@@ -25,16 +27,18 @@ if (!dir.exists(infolder) ){
 }
 
 # Default values of parameters if not given in command line.
+bmin <- 1
 best <- NA   # Not given in command line, taken from data
 nruns <-NA   # Not given om command line, taken from data
-bmin <- 1
+
 
 if (length(args) > 1){
-  nruns <- as.integer(args[2]) 
-  if (is.na(nruns)) {
+  bmin <- as.integer(args[2])
+  if (is.na(bmin)) {
     stop("Error: 2nd argument is not a number", call.=FALSE)
   }
 }
+
 
 if (length(args) > 2) {
   best <- as.numeric(args[3])
@@ -43,15 +47,16 @@ if (length(args) > 2) {
   }
 }
 
+
 if (length(args) > 3){
-  bmin <- as.integer(args[4])
-  if (is.na(bmin)) {
-    stop("Error: 4th  argument is not a number", call.=FALSE)
+  nruns <- as.integer(args[4]) 
+  if (is.na(nruns)) {
+    stop("Error: 4th argument is not a number", call.=FALSE)
   }
 }
 
 
-# Create outfolder folder to save STN objects  -- rule append "-stn" to input folder
+# Create out-folder folder to save STN objects  -- rule append "-stn" to input folder
 
 outfolder <- paste0(infolder,"-stn")
 
@@ -80,8 +85,6 @@ package.check <- lapply(
     }
   }
 )
-
-
 #-----------------------------------------------------------------------------------------------
 # Function for Creating the STN of a given instance/algorithm 
 # Read data from text input file and construct the STN network model
@@ -145,7 +148,7 @@ stn_create <- function(instance)  {
     best_ids <- which(V(STN)$Fitness >= best)
   }
   # Four types of nodes, useful for visualisation: Start, End, Best and Standard.
-  V(STN)$Type <- "standard"  # Default type
+  V(STN)$Type <- "medium"  # Default type
   V(STN)[end_ids]$Type <- "end"
   V(STN)[start_ids]$Type <- "start"
   V(STN)[best_ids]$Type <- "best"
@@ -155,7 +158,6 @@ stn_create <- function(instance)  {
   save(STN,nruns, bmin, best, file=fname) # Store STN, wether it is a minimisation problem and the best-known given
   return(vcount(STN))
 }
-
 
 #--------------------------------------------------------------------------------
 # Extracts the required data fro the input file
@@ -185,7 +187,7 @@ if (is.na(best) | is.na(nruns))  {
     v <- unlist(l, recursive = T)   # Take all the fitness values
     best <- ifelse(bmin, min(v), max(v))
     cat("Best value in data:", best, "\n")
-  }
+  } 
   
   # If nruns its not given, determine it from all files 
   if (is.na(nruns)) {
@@ -194,7 +196,8 @@ if (is.na(best) | is.na(nruns))  {
     cat("Number of runs in data:", nruns, "\n")
   }
   remove(dfs)
-}
+} 
+
 
 nsizes <- lapply(data_files, stn_create)  # Applies stn_create function to all files
 print("Number of nodes in the STNs created:")
