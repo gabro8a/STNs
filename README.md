@@ -57,17 +57,16 @@ These are to be run from the command line as described below.
 Creates the STN models of single algorithms from raw data and saves the created models in an output folder. The input raw data is read from a folder, and the script will process all the files in the folder. The command requires one argument and three optional arguments: 
 
 1. The name of the folder containing the raw data files [*Required*].
-2. The number of runs from the input files to be used [*Optional*]. This should be a number between 1 up to total number of runs within in the raw data files. If no argument is given, the largest run number in the collection of input files is used.
-3.  The objective value of global optimum (or best-known solution)  of the instance considered [*Optional*],  with the desired precision in case of real valued functions.  If no argument is given, the best evaluation value in the collection of input files is used.
-4. Boolean[*Optional*] indicating minimisation (1) or maximisation (0). If no argument is given, minimisation (i.e 1) is assumed.
+2. Boolean[*Optional*] indicating minimisation (1) or maximisation (0). If no argument is given, minimisation (i.e 1) is assumed.
+3. The objective value of global optimum (or best-known solution)  of the instance considered [*Optional*], with the desired precision in case of real valued functions.  If no argument is given, the best evaluation value in the collection of input files is used.
+4. The number of runs from the input files to be used [*Optional*]. This should be a number between 1 up to total number of runs within in the raw data files. If no argument is given, the largest run number in the collection of input files is used.
 
 Below, some examples of how to run the `create.R` script from the command line, using the provided folders with examples as input:
 
 ```
 Rscript create.R rana  
-Rscript create.R rana 6 0.001
+Rscript create.R rana 1 0.001
 Rscript create.R pmed7  
-Rscript create.R pmed7 2  
 ```
 
 Running the command will create a folder: `rana-stn` or `pmed7-stn` with the RData files containing the STN graphs. The naming convention for the output file is to add the suffix-`stn` to the input folder name.
