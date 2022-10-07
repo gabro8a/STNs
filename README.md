@@ -18,6 +18,11 @@ The readme is structured as follows:
 3. [Merged STNs](#part3): covers the aggregation of the STNs of two or three algorithms into a single merged STN model.
 
 -------------------------------------------------------------------------------------------------------
+## STN Web application
+
+The STN web application is temporarily available here: [http://45.32.184.82](http://45.32.184.82) (**The URL was soon to be changed**.)
+
+-------------------------------------------------------------------------------------------------------
 
 ## 1. Input Data <a name="part1"></a>
 
