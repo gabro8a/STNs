@@ -20,7 +20,7 @@ The readme is structured as follows:
 -------------------------------------------------------------------------------------------------------
 ## STN Web application
 
-The STN web application is temporarily available here: [http://45.32.184.82](http://45.32.184.82:81) (**The URL was soon to be changed**.)
+The STN web application is available here: [https://www.stn-analytics.com/](https://www.stn-analytics.com/) 
 
 -------------------------------------------------------------------------------------------------------
 
