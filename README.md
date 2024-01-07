@@ -23,7 +23,18 @@ The readme is structured as follows:
 The STN web application is available here: [https://www.stn-analytics.com/](https://www.stn-analytics.com/) 
 
 -------------------------------------------------------------------------------------------------------
+## STNs-v2
 
+A 2nd version of this tool is provived [STN-v2](https://github.com/gabro8a/STNs-v2/tree/main)
+
+This 2nd version contains R scripts for constructing STNs from a simplified input data (a single solution recorded per line, as used in the Web tool above) and using more powerful data science R libraries, as compared to the first version of this tool. It allows producing merged STN models of any numner algorihtms, while the previous version was restricted to a maximum of 3. The visualisation script for the merged model expects a maximum of 5 algorithms.
+
+This 2nd version also provides scripts for visualising STNs for single algorithms as well as merged STN models using newer visualisation libraries, and providing a novel graph layout that uses fitness (objective values) as the *Y* coordinate. This gives a complementary view to the force-directed and tree-based graph layouts previously used. Using the Y coordinate for fitness intuitively depicts the search process starting from low quality solutions and progressing towards high-quality ones. Both minimisation and maximisation problems can be modelled.
+
+
+-------------------------------------------------------------------------------------------------------
+
+## 1. Input Data <a name="part1"></a>
 ## 1. Input Data <a name="part1"></a>
 
 The repository contains two folders ([rana](rana) and [pmed7](pmed7)) with examples of input files, for continuous and discrete optimisation respectively.  Each folder has 3  files, each corresponding to a different metaheuristic algorithm. Each file contains the trajectory logs of 10 runs of a single instance-algorithm pair. 
